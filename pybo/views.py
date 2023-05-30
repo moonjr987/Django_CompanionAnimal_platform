@@ -728,7 +728,7 @@ def calendar(request):
     context = {
         "events":all_events,
     }
-    return render(request,'calendar.html',context)
+    return render(request,'base.html',context)
  
 def all_events(request):                                                                                                 
     all_events = Events.objects.all()                                                                                    
