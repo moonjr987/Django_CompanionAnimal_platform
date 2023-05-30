@@ -4,9 +4,9 @@
 {% load static %}
 {% block content %}
 
-<div class='main-content' style="margin-left: 5%;">
+<div class='main-content' >
     <div class="row">
-        <div class="col-md-12">
+        <div>
             <div class = "row">
                 <ol class="breadcrumb pl-2" style="margin-left: 3%; margin-top: 2%;">          
                     <li class="breadcrumb-item"><a href="">환자 목록</a></li>  
@@ -85,7 +85,7 @@
               <div class="row">
                 <div class="col-md-12" id="tracing-col">
                   <div class="card mt-3" id="tracing-card-body">
-                    <ul class="nav nav-tabs scroll" style="margin-left: 25px; margin-right: 25px; margin-bottom: 15px; font-size: 14px;">
+                    <ul class="nav nav-tabs scroll" style="margin-right: 25px; margin-bottom: 15px; font-size: 14px;">
                       <li class="nav-item"><a href="" class="goto_digitization nav-link active">계측</a>
                       </li>
                       <li class="nav-item"><a href="" class="goto_analysis nav-link">분석</a>
@@ -138,9 +138,10 @@
 
                   <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
                     <div class="col-12" style="padding:0px">
-                      <div class="imgContainer" style="position: relative;">
-                        <a href="" class="zoomplecross" id="atag" style="cursor: default; margin-left: 3%;" >
-                          <img id="img" class="col-11" src="{%static 'img/main.png' %}" alt="" >
+                      <div class="imgContainer" style="padding-left: 3%;">
+                        <a href="" class="zoomplecross" id="atag" style="cursor: default;" >
+                          
+                          <img id="img" class="col-11" src="{%static 'img/풍경3.jpeg' %}" alt="" >
                         </a>
 
                       </div>
@@ -233,11 +234,13 @@
     const ratioX = img.naturalWidth / imageRect.width;
     const ratioY = img.naturalHeight / imageRect.height;
     const posX = (x + img.offsetLeft) * ratioX;
-    const posY = (y + img.offsetTop) * ratioY;
-    const halfWidth = rightDiv.offsetWidth / 2;
-    const halfHeight = rightDiv.offsetHeight / 2;
+    const posY = (y + img.offsetTop) * ratioY ;
+    const halfWidth = rightDiv.offsetWidth / 1;
+    const halfHeight = rightDiv.offsetHeight / 1;
     let bgPosX = -posX + halfWidth;
     let bgPosY = -posY + halfHeight;
+    console.log((img.offsetLeft))
+    
 
     // 경계를 벗어나는 부분에 대해서는 계산하지 않음
     if (bgPosX > 0) {
@@ -263,7 +266,7 @@
     rightDiv.style.background = 'gray';
     rightDiv.style.height = '400px';
     enlargedImage.style.display = 'none';
-    });
+    }); 
 
 
     var slider1 = document.getElementById("slider1");
