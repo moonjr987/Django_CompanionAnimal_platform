@@ -38,4 +38,6 @@ urlpatterns = [
     path('common/', include('common.urls')),
     path('', views.main, name='main'),  # '/' 에 해당되는 path
     
+   
+    
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

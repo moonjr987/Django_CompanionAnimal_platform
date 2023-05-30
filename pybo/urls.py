@@ -84,7 +84,17 @@ urlpatterns = [
 
     # 7. setting
     path('setting/', views.setting, name='setting'),
+
+
+
+
+
+    ##########################################################
     
+    path('cal',views.calendar, name='calendar'),
+    path('all_events',views.all_events, name='all_events'),
+    path('add_event',views.add_event, name='add_event'),
+    path('update',views.update, name='update'),
 
 ]
 
