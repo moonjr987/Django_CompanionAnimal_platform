@@ -721,17 +721,49 @@ def dangbti(request):
     return render(request, 'pybo/mbti.html')
 
 
+"""@login_required(login_url='common:login')
+def question_create(request, category_name):
+    
+    #pybo 질문등록
+    
+    category = Category.objects.get(name=category_name)
+    
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user  # author 속성에 로그인 계정 저장
+            question.create_date = timezone.now()
+            question.category = category
+            question.save()
+            #return redirect(category)
+            
+    else:  # request.method == 'GET'
+        form = QuestionForm()
+    context = {'form': form, 'category': category}
+    return render(request, 'pybo/question_form.html', context)"""
 
-
+"""@login_required(login_url='common:login')
+def user_question(request):
+    question_list = Question.objects.order_by('-create_date')
+    category = Category.objects.order_by('id')
+    context = {'category': category, 'question_list': question_list}
+    print(category)
+    return render(request, 'common/profile_question.html', context)"""
+@login_required(login_url='common:login')
 def calendar(request):  
-    all_events = Events.objects.all()
+    #category = Events.objects.order_by('id')
+    author = request.user
+    all_events = Events.objects.filter(author=author)
+    #all_events = Events.objects.all()
     context = {
         "events":all_events,
     }
     return render(request,'base.html',context)
- 
-def all_events(request):                                                                                                 
-    all_events = Events.objects.all()                                                                                    
+@login_required(login_url='common:login') 
+def all_events(request):   
+    author = request.user                                                                                              
+    all_events = Events.objects.filter(author=author)                                                                             
     out = []                                                                                                             
     for event in all_events:                                                                                             
         out.append({                                                                                                     
@@ -744,16 +776,17 @@ def all_events(request):
     return JsonResponse(out, safe=False)                                                                                                              
                                                                                                                       
  
- 
+@login_required(login_url='common:login') 
 def add_event(request):
+    author = request.user
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
     title = request.GET.get("title", None)
-    event = Events(name=str(title), start=start, end=end)
+    event = Events(name=str(title), start=start, end=end, author = author)
     event.save()
     data = {}
     return JsonResponse(data)
- 
+@login_required(login_url='common:login') 
 def update(request):
     start = request.GET.get("start", None)
     end = request.GET.get("end", None)
@@ -766,7 +799,7 @@ def update(request):
     event.save()
     data = {}
     return JsonResponse(data)
- 
+@login_required(login_url='common:login') 
 def remove(request):
     id = request.GET.get("id", None)
     event = Events.objects.get(id=id)
