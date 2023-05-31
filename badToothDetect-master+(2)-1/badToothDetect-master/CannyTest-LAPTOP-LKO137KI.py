@@ -1,0 +1,40 @@
+import os
+
+import cv2
+import numpy as np
+
+dirpath = 'C:/Users/PC/Desktop/badToothDetect-master+(2)-1/badToothDetect-master/toothLines'
+newdir = 'C:/Users/PC/Desktop/badToothDetect-master+(2)-1/badToothDetect-master/Lines_tooth'
+
+if not os.path.exists(newdir):
+    os.makedirs(newdir)
+
+order = [int(i.strip(".png")) for i in os.listdir(dirpath) if i.endswith(".png")]
+jpglist = [f"{i}.png" for i in sorted(order)]  # direct reading of potentially non-sequential frames
+
+for i, png in enumerate(jpglist):
+    old = dirpath + f'/{png}'
+    img = cv2.imread(old)  # returns a numpy.array object
+
+    # degree of ash
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    # going down
+    gray = cv2.fastNlMeansDenoising(gray)
+    # binarization
+    ret, invert = cv2.threshold(~gray, 190, 255, cv2.THRESH_BINARY)
+
+    # extraction edge operator
+    # edge = cv2.Canny(invert, 30, 255)
+    # invert = np.abs((255 * np.ones((edge.shape)) - edge)).clip(0, 255)
+
+    # Find the outline
+    contours,h = cv2.findContours(invert, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+
+    # drawContours outline
+    sure = cv2.drawContours(img, contours, -1, (0, 255, 0), 3)
+
+    # cv2.imshow('img', invert)
+    new = newdir + f'/{png}'
+    # cv2.imwrite(new, invert)
+    cv2.imwrite(new, sure)
+    print(f'{i + 1} / {len(jpglist)}')
