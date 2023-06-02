@@ -99,6 +99,7 @@ class Photo(models.Model):
 
 
 class Events(models.Model):
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='calendar_author')
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255,null=True,blank=True)
     start = models.DateTimeField(null=True,blank=True)
