@@ -43,7 +43,7 @@ urlpatterns = [
     path('expert/craete/<str:category_name>/', views.expert_create, name='expert_create'),
     path('create/<int:question_id>', views.pet_create, name='pet_create'),
     path('dangbti/', views.dangbti, name='dangbti'),
-
+    
 
     # 1. Channel-Community
     path('channelCommunity/create/', views.createChannel, name='createChannel'),
@@ -77,7 +77,9 @@ urlpatterns = [
 
 
     # 6. ai-Check
+    path('process-image/', views.process_image, name='process_image'),
     path('aiCheck/createData/', views.createDataAICheck, name='createDataAICheck'),
+    path('aiCheck/createData/line/', views.createDataAICheck, name='createDataAICheck'),
     path('aiCheck/createPHR/', views.createPHRAICheck, name='createPHRAICheck'),
     path('aiCheck/etc/', views.etcAICheck, name='etcAICheck'),
 
