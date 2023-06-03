@@ -134,6 +134,3 @@ class Tanalyze(models.Model):
         #return self.subject
 
 
-
-
-# Create your models here.
