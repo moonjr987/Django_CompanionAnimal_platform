@@ -108,6 +108,31 @@ class Events(models.Model):
     class Meta:  
         db_table = "tblevents"
 
+class Tanalyze(models.Model):        
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='Tanalyze_author')
+    side_sephalo = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    side_sephalo_line = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    front_sephalo = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True) 
+    panorama = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True) 
+    Front_face_photo = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True) 
+    smiley_face_photo = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True) 
+    degree_45_face_photo = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)  
+    Side_face_picture = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True) 
+    premises_on_the_right = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True) 
+    premises_on_the_front = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True) 
+    premises_on_the_left = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    occlusal_surface_of_the_maxilla = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    occlusal_surface_of_the_mandible = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    add_extra1 = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    add_extra2 = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    add_extra3 = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    add_extra4 = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    add_extra5 = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+    add_extra6 = models.ImageField(upload_to='photos/%Y/%m/%d/',null=True,blank=True)
+
+    #def __str__(self):
+        #return self.subject
+
 
 
 
