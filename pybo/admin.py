@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Post, Photo, Expert, Pet, Events,ForumQuestion,ForumAnswer
+from .models import Question, Post, Photo, Expert, Pet, Events,Tanalyze,ForumQuestion,ForumAnswer
 
 class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['subject']
@@ -25,3 +25,6 @@ admin.site.register(Expert)
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(Post, PostAdmin)
 # Register your models here.
+
+
+admin.site.register(Tanalyze)

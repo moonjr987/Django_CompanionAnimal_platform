@@ -71,3 +71,18 @@ class ForumAnswerForm(forms.ModelForm):
         labels = {
             'content': '뒙변내용',
         }
+        from django import forms
+from .models import PatientList
+
+class PatientForm(forms.ModelForm):
+    class Meta:
+        model = PatientList
+        fields = ['name', 'gender', 'birthday', 'progress', 'tag']
+
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}),
+            'gender': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '성별'}),
+            'birthday': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '생년월일'}),
+            'progress': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '진행 상태'}),
+            'tag': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '태그'}),
+        }

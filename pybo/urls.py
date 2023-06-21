@@ -3,6 +3,7 @@ from pybo.views import MovieViewSet
 from django.contrib.auth import views as auth_views
 from . import views
 from django.urls import path, include, re_path
+from .views import patient_list, add_patient
 app_name = 'pybo'
 
 urlpatterns = [
@@ -107,6 +108,9 @@ urlpatterns = [
     path('all_events',views.all_events, name='all_events'),
     path('add_event',views.add_event, name='add_event'),
     path('update',views.update, name='update'),
+
+     path('patient_list/', patient_list, name='patient_list'),
+    path('add_patient/', add_patient, name='add_patient'),
 
 ]
 
