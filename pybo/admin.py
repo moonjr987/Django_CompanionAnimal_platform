@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Post, Photo, Expert, Pet, Events
+from .models import Question, Post, Photo, Expert, Pet, Events,ForumQuestion,ForumAnswer
 
 class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['subject']
@@ -10,6 +10,13 @@ class PhotoInline(admin.TabularInline):
 class PostAdmin(admin.ModelAdmin):
     inlines = [PhotoInline, ]
 
+
+
+
+
+
+
+admin.site.register(ForumQuestion)
 
 admin.site.register(Pet)
 
