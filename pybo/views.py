@@ -765,6 +765,8 @@ def user_question(request):
     context = {'category': category, 'question_list': question_list}
     print(category)
     return render(request, 'common/profile_question.html', context)"""
+
+
 @login_required(login_url='common:login')
 def calendar(request):  
     #category = Events.objects.order_by('id')
@@ -822,6 +824,42 @@ def remove(request):
     data = {}
     return JsonResponse(data)
 
+
+# 환자 post views.py 코드
+from django.shortcuts import render
+from .models import PatientList
+
+def patient_list(request):
+    patients = PatientList.objects.all()
+    context = {
+        'patients': patients
+    }
+    return render(request, 'patient_list.html', context)
+
+
+# 신규 환자 생성
+from django.shortcuts import render, redirect
+from .forms import PatientForm
+
+def add_patient(request):
+    if request.method == 'POST':
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            patient = form.save(commit=False)
+            patient.author = request.user
+            patient.save()
+            return redirect('patient_list')  # 'patient_list'를 환자 목록 뷰의 URL 이름으로 바꾸세요
+    else:
+        form = PatientForm()
+    return render(request, 'your_template.html', {'form': form})
+
+
+
+
+
+
+
+
 def process_image_function(img):
     # 이미지 처리
     x = cv2.Sobel(img, cv2.CV_16S, 1, 0)
@@ -832,16 +870,16 @@ def process_image_function(img):
 
     return result
 
+
+
 def process_image(request):
     # Tanalyze 모델 인스턴스 가져오기
-    tanalyze_instance = Tanalyze.objects.all()[0]  # 예시로 첫 번째 인스턴스를 가져옴
+    tanalyze_instance = Tanalyze.objects.all()[1]  # 예시로 첫 번째 인스턴스를 가져옴
 
     # 이미지 파일 읽기
-    image = tanalyze_instance.side_sephalo
-
+    image = tanalyze_instance.side_sephalo  
     # 이미지 파일 읽기
     img = cv2.imread(image.path)
-
     # 이미지 처리
     result = process_image_function(img)
 
@@ -850,7 +888,7 @@ def process_image(request):
 
     # Tanalyze 모델 인스턴스 업데이트
     tanalyze_instance.side_sephalo_line.save('result.jpg', result_image)
-
+  
     # 결과 이미지의 URL을 변수에 할당
     result_image_url = tanalyze_instance.side_sephalo_line.url
 
