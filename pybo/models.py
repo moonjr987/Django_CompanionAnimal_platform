@@ -133,8 +133,17 @@ class Tanalyze(models.Model):
     #def __str__(self):
         #return self.subject
 
+class PatientList(models.Model): 
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='PatientList_author')
+    idx = models.CharField(max_length=255,null=True,blank=True)
+    name = models.CharField(max_length=255,null=True,blank=True)
+    gender = models.CharField(max_length=255,null=True,blank=True)
+    birthday = models.CharField(max_length=255,null=True,blank=True)
+    progress = models.CharField(max_length=255,null=True,blank=True)
+    tag = models.CharField(max_length=255,null=True,blank=True)
+    icon = models.CharField(max_length=255,null=True,blank=True)
 
-
-
+    def __str__(self):
+        return self.author
 
 # Create your models here.
