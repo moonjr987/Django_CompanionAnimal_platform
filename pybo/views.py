@@ -37,6 +37,15 @@ from django.core.files.storage import default_storage
 from .models import Tanalyze
 from django.core.files import File
 from django.core.files.base import ContentFile
+from .models import ForumQuestion
+from .models import ForumAnswer
+
+from .forms import ForumQuestionForm
+from .forms import ForumAnswerForm
+
+
+
+
 class MovieViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = MovieSerializer
@@ -596,13 +605,8 @@ def createGroup(request):
     #print(category)
     return render(request, '2.group/create.html')
 
-def forumGroup(request):
-    #question_list = Question.objects.order_by('-create_date')
-    #answer_list = Answer.objects.order_by('-create_date')
-    #category = Category.objects.order_by('id')
-    #context = {'category': category, 'question_list': question_list, 'answer_list' : answer_list}
-    #print(category)
-    return render(request, '2.group/forum.html')
+
+
 
 def listGroup(request):
     #question_list = Question.objects.order_by('-create_date')
@@ -734,6 +738,29 @@ def setting(request):
 def dangbti(request):
     
     return render(request, 'pybo/mbti.html')
+
+# def forum_question(request):
+#     if request.method == 'POST':
+#         form = ForumQuestionForm(request.POST)
+#         if form.is_valid():
+#             subject = form.cleaned_data['subject']
+#             content = form.cleaned_data['content']
+#             author = request.user
+#             create_date = timezone.now()
+
+#             question = ForumQuestion(
+#                 subject=subject,
+#                 content=content,
+#                 author=author,
+#                 create_date=create_date
+#             )
+#             question.save()
+
+#             return redirect('forum')  # 질문 등록 후 포럼 목록 페이지로 리다이렉트
+#     else:  # GET 요청
+#         form = ForumQuestionForm()
+
+#     return render(request, 'forum/question_form.html', {'form': form})
 
 
 """@login_required(login_url='common:login')
@@ -895,3 +922,112 @@ def process_image(request):
     context = {'result_image_url': result_image_url}
 
     return render(request, '6.ai-Check/createData_line.html', context)
+
+@login_required(login_url='common:login')
+def forumGroup(request):
+
+
+    questions = ForumQuestion.objects.all()
+    context = {'questions': questions}
+    return render(request, '2.group/forum.html', context)
+
+
+
+
+@login_required(login_url='common:login')
+def create_forum_question(request):
+    if request.method == "POST":
+        subject = request.POST.get('subject')
+        content = request.POST.get('content')
+        form = ForumQuestionForm(request.POST, request.FILES)
+        # ForumQuestion 모델에 데이터 저장
+        forum_question = ForumQuestion(
+            author=request.user,
+            subject=subject, 
+            content=content,
+            modify_date=None,
+            create_date=timezone.now(),
+            category=None,
+            )
+        forum_question.save()
+        context = {'forum_question': forum_question}
+
+
+    return render(request, '2.group/forum.html', context)
+
+# @login_required(login_url='common:login')
+# def create_forum_answer(request, answer_id):
+#     if request.method == 'POST':
+#         question = ForumAnswer.objects.get(pk=answer_id)
+#         author = request.user
+#         content = request.POST['content']
+#         create_date = timezone.now()
+
+#         answer = ForumAnswer(question=question, author=author, content=content, create_date=create_date)
+#         answer.save()
+        
+#         return redirect('2.group/forum.html', answer_id=answer_id)
+    
+
+@login_required(login_url='common:login')
+def create_forum_answer(request, question_id):
+    question = get_object_or_404(ForumAnswer, pk=question_id)
+    if request.method == "POST":
+        form = ForumAnswerForm(request.POST)
+        if form.is_valid():
+            answer = form.save(commit=False)
+            answer.author = request.user  # author 속성에 로그인 계정 저장
+            answer.create_date = timezone.now()
+            answer.question = question
+            answer.save()
+            print(question.id)
+            return redirect('{}#answer_{}'.format(
+                resolve_url('2.group/forum.html', question_id=question.id), answer.id))
+    else:
+        form = ForumAnswerForm()
+    context = {'question': question, 'form': form}
+    return render(request, '2.group/forum.html', context)
+
+
+
+
+
+@login_required(login_url='common:login')
+
+def forum(request):
+    if request.method == 'POST':
+        form = ForumQuestionForm(request.POST)
+        if form.is_valid():
+            question = form.save(commit=False)
+            question.author = request.user
+            question.save()
+            return redirect('forum')
+    else:
+        form = ForumQuestionForm()
+    questions = ForumQuestion.objects.all()
+    context = {'questions': questions}
+    return render(request, '2.group/forum.html', context)
+
+
+
+def fetch_more_posts(request):
+    last_question_id = request.GET.get('last_question_id')  # 마지막으로 로드한 질문의 ID를 가져옴
+
+    # 마지막으로 로드한 질문 ID보다 작은 ID를 가진 질문들을 가져옴
+    questions = ForumQuestion.objects.filter(id__lt=last_question_id).order_by('-create_date')[:10]
+
+    # 질문들을 JSON 형식으로 직렬화하여 응답
+    data = {
+        'questions': [
+            {
+                'id': question.id,
+                'subject': question.subject,
+                'content': question.content,
+                'author': question.author.username,
+                'create_date': question.create_date.isoformat(),
+            }
+            for question in questions
+        ]
+    }
+    return render(request, '2.group/forum.html', data)
+

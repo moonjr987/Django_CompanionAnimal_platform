@@ -1,6 +1,9 @@
 from django import forms
-from pybo.models import Question, Answer, Expert, Expert_answer, Pet, PatientList
+from pybo.models import Question, Answer, Expert, Expert_answer, Pet
 from django.db import connection
+from .models import ForumQuestion
+from .models import ForumAnswer
+
 
 class QuestionForm(forms.ModelForm):
     class Meta:
@@ -56,8 +59,19 @@ class PetForm(forms.ModelForm):
         model = Pet
         fields = ['photo']
 
+class ForumQuestionForm(forms.ModelForm):
+    class Meta:
+        model = ForumQuestion
+        fields = ['subject', 'content', 'category','forumimg']
 
-from django import forms
+class ForumAnswerForm(forms.ModelForm):
+    class Meta:
+        model = ForumAnswer
+        fields = ['content']
+        labels = {
+            'content': '뒙변내용',
+        }
+        from django import forms
 from .models import PatientList
 
 class PatientForm(forms.ModelForm):

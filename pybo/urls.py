@@ -46,6 +46,8 @@ urlpatterns = [
     path('dangbti/', views.dangbti, name='dangbti'),
 
 
+
+
     # 1. Channel-Community
     path('channelCommunity/create/', views.createChannel, name='createChannel'),
     path('channelCommunity/list/', views.listChannel, name='listChannel'),
@@ -57,6 +59,14 @@ urlpatterns = [
     path('group/create/', views.createGroup, name='createGroup'),
     path('group/list/', views.listGroup, name='listGroup'),
     path('group/forum/', views.forumGroup, name='forumGroup'),
+    
+    path('group/create_forum_question/', views.create_forum_question, name='create_forum_question'),
+    path('group/forum-get/', views.forum, name='forum'),
+    path('group/fetch_more_posts/', views.fetch_more_posts, name='fetch_more_posts'),
+    path('group/create_forum_answer/<int:question_id>/', views.create_forum_answer, name='create_forum_answer'),
+
+
+
 
 
     # 3. board
