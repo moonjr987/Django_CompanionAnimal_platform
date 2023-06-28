@@ -135,17 +135,44 @@ class Tanalyze(models.Model):
     #def __str__(self):
         #return self.subject
 
-class PatientList(models.Model): 
+from django.db import models
+from django.contrib.auth.models import User
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class PatientList(models.Model):
+    GENDER_CHOICES = (
+        ('male', 'Male'),
+        ('female', 'Female'),
+    )
+
+    PROGRESS_CHOICES = (
+        ('계측', '계측'),
+        ('분석', '분석'),
+        ('치료', '치료'),
+        ('완료', '완료'),
+    )
+
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='PatientList_author')
-    idx = models.CharField(max_length=255,null=True,blank=True)
-    name = models.CharField(max_length=255,null=True,blank=True)
-    gender = models.CharField(max_length=255,null=True,blank=True)
-    birthday = models.CharField(max_length=255,null=True,blank=True)
-    progress = models.CharField(max_length=255,null=True,blank=True)
-    tag = models.CharField(max_length=255,null=True,blank=True)
-    icon = models.CharField(max_length=255,null=True,blank=True)
+    idx = models.CharField(max_length=255, null=True, blank=True)
+    name = models.CharField(max_length=255, null=True, blank=True)
+    gender = models.CharField(max_length=255, choices=GENDER_CHOICES, null=True, blank=True)
+    birthday = models.DateTimeField(null=True, blank=True)
+    progress = models.CharField(max_length=255, choices=PROGRESS_CHOICES, null=True, blank=True)
+    tag = models.CharField(max_length=255, null=True, blank=True)
+    icon = models.CharField(max_length=255, null=True, blank=True)
+
     def __str__(self):
-        return self.author
+        return str(self.author)
+
+
 
 class ForumQuestion(models.Model):
     modify_date = models.DateTimeField(null=True, blank=True)

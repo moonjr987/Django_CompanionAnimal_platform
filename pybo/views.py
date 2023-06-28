@@ -853,37 +853,31 @@ def remove(request):
 
 
 # 환자 post views.py 코드
-from django.shortcuts import render
-from .models import PatientList
-
-def patient_list(request):
-    patients = PatientList.objects.all()
-    context = {
-        'patients': patients
-    }
-    return render(request, 'patient_list.html', context)
 
 
-# 신규 환자 생성
 from django.shortcuts import render, redirect
 from .forms import PatientForm
+from .models import PatientList
 
 def add_patient(request):
     if request.method == 'POST':
-        form = PatientForm(request.POST)
-        if form.is_valid():
-            patient = form.save(commit=False)
-            patient.author = request.user
+        patient_form = PatientForm(request.POST)
+        if patient_form.is_valid():
+            patient = patient_form.save(commit=False)
+            patient.author = request.user  # 현재 로그인한 사용자를 할당
             patient.save()
-            return redirect('patient_list')  # 'patient_list'를 환자 목록 뷰의 URL 이름으로 바꾸세요
+            return redirect('pybo:add_patient')  # POST 요청 시에는 목록 페이지로 리디렉션합니다.
     else:
-        form = PatientForm()
-    return render(request, 'your_template.html', {'form': form})
+        patient_form = PatientForm()
+    
+    patients = PatientList.objects.all()
 
+    context = {
+        'patients': patients,
+        'patient_form': patient_form,
+    }
 
-
-
-
+    return render(request, '1.channelCommunity/list.html', context)
 
 
 
