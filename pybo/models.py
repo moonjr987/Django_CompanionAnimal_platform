@@ -170,3 +170,8 @@ class ForumAnswer(models.Model):
     voter = models.ManyToManyField(User, related_name='Forum_voter_answer')
 
 # Create your models here.
+
+from django.db import models
+
+class Image(models.Model):
+    filename = models.CharField(max_length=255)

@@ -39,7 +39,7 @@ from django.core.files import File
 from django.core.files.base import ContentFile
 from .models import ForumQuestion
 from .models import ForumAnswer
-
+from django.core.files.storage import FileSystemStorage
 from .forms import ForumQuestionForm
 from .forms import ForumAnswerForm
 
@@ -1031,3 +1031,25 @@ def fetch_more_posts(request):
     }
     return render(request, '2.group/forum.html', data)
 
+def upload_image(request):
+    if request.method == 'POST':
+        form = request.FILES  # 폼 데이터를 가져옴
+        files = request.FILES
+        
+        # 이미지 저장
+        tanalyze = Tanalyze.objects.create(
+            side_sephalo=form.get('image_input_1'),
+            front_sephalo=form.get('image_input_2'),
+            panorama=form.get('image_input_3'),
+            Front_face_photo=form.get('image_input_4'),
+            smiley_face_photo=form.get('image_input_5'),
+            degree_45_face_photo=form.get('image_input_6'),
+            # 나머지 필드도 동일한 방식으로 저장
+        )
+        
+        # 데이터베이스에 이미지 정보 저장
+        tanalyze.save()
+        
+        return render(request, '6.ai-Check/createPHR.html', {'upload_success': True})
+    
+    return render(request, '6.ai-Check/createPHR.html', {'upload_success': False})
