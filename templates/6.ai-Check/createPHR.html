@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+
 <div class="col-lg-11">
     <div class="card text-bg-light mb-3 mt-4">
-    <div class="card-header ">레코드 목록 <button type="button" class="btn ms-2" style="background-color: rgb(195, 255, 233);">+ 레코드 생성</button></div>
+    <div class="card-header ">레코드 목록 <button type="button" class="btn ms-2" style="background-color: rgb(182, 227, 255);">+ 레코드 생성</button></div>
     <div class="col-lg-12"></div>
     <div class="card-body" >
         <div class="card text-bg-info mb-3 ">
@@ -14,10 +15,10 @@
                     </div>
                     <div class="col  d-flex justify-content-end">
                         
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                         <input class="form-control form-control-user" type="file" multiple="multiple" style="width: 25rem;"
                         name="product_detail_image" id="product_detail_image" onchange="setDetailImage(event);">
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 
@@ -26,22 +27,57 @@
                 <div class="row">
                     <div class="col-lg-2 ms-2" style="border-right: 1px solid #c7c7c7;">
                         <div class="row">
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(225, 228, 204);">계측</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">분석</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">PA</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">연조직</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">문제목록</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">치료</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">중첩</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">뷰어</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">케이스</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">타임랩스</button>
-                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(190, 225, 255);">속이뚫린</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">계측</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">분석</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">PA</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">연조직</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">문제목록</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">치료</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">중첩</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">뷰어</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">케이스</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">타임랩스</button>
+                            <button type="button" class="btn mb-2 col-lg-11" style="background-color: rgb(226,226,226);">속이뚫린</button>
                         </div>
                     </div>
                     <div class="col-lg-9">
                         <div class="row">
-                            <div class="col-lg-12"><div id="images_container"></div></div>
+                            <div class="col-lg-12">
+                                <form th:action="@{/upload}" method="POST" enctype="multipart/form-data">
+                                    <div class="row">
+                                        <div class="col-lg-2">
+                                            <input id="image_input_1" type="file" accept="image/*" style="display: none" onchange="selectImage(event, 'image_preview_1')">
+                                            <img id="image_preview_1" src="{%static 'img/1.png' %}" class="rounded float-start" alt="..." onclick="openFileInput('image_input_1')">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input id="image_input_2" type="file" accept="image/*" style="display: none" onchange="selectImage(event, 'image_preview_2')">
+                                            <img id="image_preview_2" src="{%static 'img/2.png' %}" class="rounded float-start" alt="..." onclick="openFileInput('image_input_2')">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input id="image_input_3" type="file" accept="image/*" style="display: none" onchange="selectImage(event, 'image_preview_3')">
+                                            <img id="image_preview_3" src="{%static 'img/3.png' %}" class="rounded float-start" alt="..." onclick="openFileInput('image_input_3')">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input id="image_input_4" type="file" accept="image/*" style="display: none" onchange="selectImage(event, 'image_preview_4')">
+                                            <img id="image_preview_4" src="{%static 'img/4.png' %}" class="rounded float-start" alt="..." onclick="openFileInput('image_input_4')">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input id="image_input_5" type="file" accept="image/*" style="display: none" onchange="selectImage(event, 'image_preview_5')">
+                                            <img id="image_preview_5" src="{%static 'img/5.png' %}" class="rounded float-start" alt="..." onclick="openFileInput('image_input_5')">
+                                        </div>
+                                        <div class="col-lg-2">
+                                            <input id="image_input_6" type="file" accept="image/*" style="display: none" onchange="selectImage(event, 'image_preview_6')">
+                                            <img id="image_preview_6" src="{%static 'img/6.png' %}" class="rounded float-start" alt="..." onclick="openFileInput('image_input_6')">
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Primary</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div id="images_container"></div>
+                            </div>
                             
                               <!-- <div class="card h-100">
                                 <img src="{%static 'img/INFJ.png' %}" class="card-img-top" alt="...">
@@ -51,7 +87,9 @@
                               <!-- <input type="file" id="getfile" accept="image/*"> -->
 
                               
-                            </div>
+                        </div>
+                        
+                        </div>
                     </div>
             </div>
             </div>
@@ -59,7 +97,7 @@
     </div>
   </div>
 </div>
-<script>
+<!-- <script>
     var file = document.querySelector('#getfile');
 
 file.onchange = function () {
@@ -74,7 +112,13 @@ file.onchange = function () {
         document.querySelector('#preview').src = reader.result ;
     };
 };
-</script>
+</script> -->
+<style>
+    .btn:hover {
+      background-color:#8baaff;
+      transition: 0.7s;
+  }
+</style>
 <script>
     function setDetailImage(event){
         for(var image of event.target.files){
@@ -91,6 +135,30 @@ file.onchange = function () {
             reader.readAsDataURL(image);
         }
     }
+</script>
+<script>
+    function openFileInput(inputId) {
+        var fileInput = document.getElementById(inputId);
+        fileInput.click();
+    }
+
+    function selectImage(event, previewId) {
+        var imagesContainer = document.getElementById("images_container");
+        imagesContainer.innerHTML = "";
+
+        var selectedImage = document.createElement("img");
+        selectedImage.src = URL.createObjectURL(event.target.files[0]);
+        selectedImage.classList.add("rounded", "float-start");
+        imagesContainer.appendChild(selectedImage);
+        selectedImage.setAttribute("class", "col-lg-2");
+
+        var imagePreview = document.getElementById(previewId);
+        imagePreview.src = URL.createObjectURL(event.target.files[0]);
+        imagePreview.setAttribute("class", "col-lg-12");
+    }
+
+    document.getElementById("images_container").style.display ='none';
+
 </script>
 
 {% endblock %}
