@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Question, Post, Photo, Expert, Pet, Events,Tanalyze,ForumQuestion,ForumAnswer
+from .models import Question, Post, Photo, Expert, Pet, Events,Tanalyze,ForumQuestion,ForumAnswer, PatientList
 
 class QuestionAdmin(admin.ModelAdmin):
     search_fields = ['subject']
@@ -14,7 +14,7 @@ class PostAdmin(admin.ModelAdmin):
 
 
 
-
+admin.site.register(PatientList)
 
 admin.site.register(ForumQuestion)
 

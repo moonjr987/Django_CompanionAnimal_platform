@@ -103,6 +103,12 @@
         color: #21d4fd;
     }
 </style>
+<style>
+  .patient-row:hover {
+    background-color: #f2f2f2;
+    cursor: pointer;
+  }
+  </style>
 <div class="row" style="padding-top: 3%;">
   <div class="card">
     <div class="card-header d-flex mb-6">
@@ -167,36 +173,37 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>1</td>
-            <td>John Doe</td>
-            <td><a href="#">Link</a></td>
-            <td>Toosapp Data</td>
+          {% for patient in patients %}
+          <tr class="patient-row" data-patient-id="{{ patient.id }}">
+            <td>{{ patient.id }}</td>
+            <td id="patientName-{{ patient.id }}">{{ patient.name }}</td>
+            <td><a href="#">{{ patient.link }}</a></td>
+            <td>{{ patient.toosapp }}</td>
             <td>
               <section class="step-wizard">
                 <ul class="step-wizard-list">
-                  <li class="step-wizard-item">
+                  <li class="step-wizard-item {% if not patient.progress %}current-item{% endif %}">
                     <span class="progress-count">1</span>
                     <span class="progress-label">계측</span>
                   </li>
-                  <li class="step-wizard-item current-item">
+                  <li class="step-wizard-item {% if patient.progress == '분석' %}current-item{% endif %}">
                     <span class="progress-count">2</span>
                     <span class="progress-label">분석</span>
                   </li>
-                  <li class="step-wizard-item">
+                  <li class="step-wizard-item {% if patient.progress == '치료' %}current-item{% endif %}">
                     <span class="progress-count">3</span>
                     <span class="progress-label">치료</span>
                   </li>
-                  <li class="step-wizard-item">
+                  <li class="step-wizard-item {% if patient.progress == '완료' %}current-item{% endif %}">
                     <span class="progress-count">4</span>
                     <span class="progress-label">완료</span>
                   </li>
                 </ul>
               </section>
             </td>
-            <td>Tag1, Tag2, Tag3</td>
+            <td>{{ patient.tag }}</td>
           </tr>
-          <!-- Add more table rows as needed -->
+          {% endfor %}
         </tbody>
       </table>
     </div>
@@ -211,22 +218,11 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form method="post" action="{% url 'pybo:add_patient' %}">
+        <h5 class="my-3 border-bottom pb-2">환자 등록</h5>
+        <form method="post" id="patientForm">
           {% csrf_token %}
-          {{ form.as_p }}
-          <div class="form-group">
-            <label for="id_field1">이름:</label>
-            <input type="text" class="form-control" id="id_field1" name="field1">
-          </div>
-          <div class="form-group">
-            <label for="id_field2">성별2:</label>
-            <input type="text" class="form-control" id="id_field2" name="field2">
-          </div>
-          <div class="form-group">
-            <label for="id_field3">생일:</label>
-            <input type="text" class="form-control" id="id_field3" name="field3">
-          </div>
-          <button type="submit" class="btn btn-primary">저장</button>
+          {{ patient_form.as_p }}
+          <button type="submit" class="btn btn-primary">저장하기</button>
         </form>
       </div>
     </div>
@@ -240,9 +236,29 @@
 
 {% block script %}
 <script>
-  function toggleForm() {
-    var formContainer = document.getElementById('new-patient-form');
-    formContainer.style.display = (formContainer.style.display === 'none') ? 'block' : 'none';
-  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var patientRows = document.querySelectorAll('.patient-row');
+    patientRows.forEach(function(row) {
+      row.addEventListener('click', function() {
+        var patientId = this.getAttribute('data-patient-id');
+        var patientName = document.getElementById('patientName-' + patientId).innerText;
+        var url = '/aiCheck/createPHR/' + patientId + '/?patient_name=' + encodeURIComponent(patientName);
+        window.location.href = url;
+        
+        // progress 바 업데이트
+        var progressItems = this.querySelectorAll('.progress-count');
+        progressItems.forEach(function(item, index) {
+          if (index === 0) {
+            item.classList.add('active');
+          } else {
+            item.classList.remove('active');
+          }
+          item.textContent = index + 1;
+        });
+      });
+    });
+  });
+
 </script>
 {% endblock %}

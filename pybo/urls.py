@@ -3,7 +3,7 @@ from pybo.views import MovieViewSet
 from django.contrib.auth import views as auth_views
 from . import views
 from django.urls import path, include, re_path
-from .views import patient_list, add_patient
+
 app_name = 'pybo'
 
 urlpatterns = [
@@ -50,7 +50,7 @@ urlpatterns = [
 
     # 1. Channel-Community
     path('channelCommunity/create/', views.createChannel, name='createChannel'),
-    path('channelCommunity/list/', views.listChannel, name='listChannel'),
+    path('channelCommunity/list/', views.add_patient, name='add_patient'),
     path('channelCommunity/medicalCase/', views.medicalCaseChannel, name='medicalCaseChannel'),
     path('channelCommunity/schedule/', views.scheduleChannel, name='scheduleChannel'),
 
@@ -109,8 +109,9 @@ urlpatterns = [
     path('add_event',views.add_event, name='add_event'),
     path('update',views.update, name='update'),
 
-     path('patient_list/', patient_list, name='patient_list'),
-    path('add_patient/', add_patient, name='add_patient'),
+   
+    #path('add_patient/', add_patient, name='add_patient'),
+
 
 ]
 

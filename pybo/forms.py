@@ -71,18 +71,25 @@ class ForumAnswerForm(forms.ModelForm):
         labels = {
             'content': '뒙변내용',
         }
-        from django import forms
+from django import forms
 from .models import PatientList
 
+
 class PatientForm(forms.ModelForm):
+    GENDER_CHOICES = [
+        ('M', 'Male'),
+        ('F', 'Female'),
+    ]
+
+    gender = forms.ChoiceField(choices=GENDER_CHOICES, widget=forms.RadioSelect)
+
     class Meta:
         model = PatientList
-        fields = ['name', 'gender', 'birthday', 'progress', 'tag']
-
+        fields = ['name', 'gender', 'birthday']
         widgets = {
-            'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '이름'}),
-            'gender': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '성별'}),
-            'birthday': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '생년월일'}),
-            'progress': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '진행 상태'}),
-            'tag': forms.TextInput(attrs={'class': 'form-control', 'placeholder': '태그'}),
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'birthday': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
         }
+
+
+
