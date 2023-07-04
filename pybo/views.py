@@ -10,6 +10,7 @@ from rest_framework import viewsets
 from .serializer import MovieSerializer
 from django.contrib import messages
 from django.contrib.auth.models import User
+from urllib.parse import unquote
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView
 from django.contrib.auth.forms import (
@@ -1027,8 +1028,8 @@ def fetch_more_posts(request):
 
 def upload_image(request):
     if request.method == 'POST':
-        form = request.FILES  # 폼 데이터를 가져옴
-        files = request.FILES
+        form = request.POST  # 폼 데이터를 가져옴
+        files = request.POST
         
         # 이미지 저장
         tanalyze = Tanalyze.objects.create(
@@ -1047,3 +1048,13 @@ def upload_image(request):
         return render(request, '6.ai-Check/createPHR.html', {'upload_success': True})
     
     return render(request, '6.ai-Check/createPHR.html', {'upload_success': False})
+
+
+
+def create_phr(request, patient_id):
+    patient_name = unquote(request.GET.get('patient_name', ''))
+    # PHR을 생성하는 로직을 여기에 작성합니다.
+    return redirect('pybo/aiCheck/createPHR/' + str(patient_id) + '/?patient_name=' + patient_name)
+
+
+
