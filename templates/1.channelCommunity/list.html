@@ -243,7 +243,9 @@
       row.addEventListener('click', function() {
         var patientId = this.getAttribute('data-patient-id');
         var patientName = document.getElementById('patientName-' + patientId).innerText;
-        var url = '/aiCheck/createPHR/' + patientId + '/?patient_name=' + encodeURIComponent(patientName);
+        var url = '/pybo/aiCheck/createPHR/' + patientId + '/?patient_name=' + encodeURIComponent(patientName);
+
+
         window.location.href = url;
         
         // progress 바 업데이트
