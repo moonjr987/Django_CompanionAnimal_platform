@@ -864,17 +864,23 @@ from .models import PatientList
 
 def add_patient(request):
     if request.method == 'POST':
+        print('완료11')
         patient_form = PatientForm(request.POST)
+        print('완료22')
         if patient_form.is_valid():
             patient = patient_form.save(commit=False)
-            patient.author = request.user  # 현재 로그인한 사용자를 할당
+            patient.author = request.user
             patient.save()
-            return redirect('pybo:add_patient')  # POST 요청 시에는 목록 페이지로 리디렉션합니다.
+            print('완료33')
+            return redirect('pybo:add_patient')
+        else:
+            print(patient_form.errors)
     else:
         patient_form = PatientForm()
+
     
     patients = PatientList.objects.all()
-
+    
     context = {
         'patients': patients,
         'patient_form': patient_form,
