@@ -11,12 +11,14 @@ from .serializer import MovieSerializer
 from django.contrib import messages
 from django.contrib.auth.models import User
 from urllib.parse import unquote
+from django.urls import reverse
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetDoneView
 from django.contrib.auth.forms import (
     AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
 )
 from django.db.models import Q
+from django.http import HttpResponseRedirect 
 from django.db.models import Count
 from .models import Post, Photo, Events
 import openai

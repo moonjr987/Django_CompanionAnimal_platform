@@ -91,7 +91,7 @@ urlpatterns = [
     path('process-image/', views.process_image, name='process_image'),
     path('aiCheck/createData/', views.createDataAICheck, name='createDataAICheck'),
     path('aiCheck/createData/line/', views.createDataAICheck, name='createDataAICheck'),
-    path('aiCheck/createPHR/<int:patientId>/', views.createPHRAICheck, name='createPHRAICheck'),
+    path('aiCheck/createPHR/', views.createPHRAICheck, name='createPHRAICheck'),
     path('aiCheck/etc/', views.etcAICheck, name='etcAICheck'),
 
 
